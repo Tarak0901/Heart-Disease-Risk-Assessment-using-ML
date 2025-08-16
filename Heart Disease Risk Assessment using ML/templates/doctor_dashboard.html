@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Doctor Dashboard</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #f0f4f8 0%, #e0f7fa 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        h2 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 30px;
+        }
+        .submission-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .submission-card h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .submission-card p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #5b8def 0%, #36cfc9 100%);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        .button:hover {
+            background: linear-gradient(90deg, #36cfc9 0%, #5b8def 100%);
+        }
+        .logout {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .logout a {
+            display: inline-block;
+            padding: 10px 24px;
+            background: #ef5350;
+            color: #fff;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        .logout a:hover {
+            background: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Doctor Dashboard - Patient Submissions</h2>
+
+        {% if records %}
+            {% for sub in records %}
+                <div class="submission-card">
+                    <h3>Patient ID: {{ sub.patient_id }}</h3>
+                    <p><strong>Date Submitted:</strong> {{ sub.date }}</p>
+                    <p><strong>Status:</strong>
+                        {% if sub.prediction %}
+                            ✅ {{ sub.prediction }}
+                        {% else %}
+                            ⏳ Pending
+                        {% endif %}
+                    </p>
+                    {% if not sub.prediction %}
+                        <a class="button" href="{{ url_for('predict', patient_id=sub.patient_id) }}">Predict</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No submissions yet.</p>
+        {% endif %}
+
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

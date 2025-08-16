@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Health Reports</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #f8fafc 0%, #e0eafc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 6px 24px rgba(60, 60, 120, 0.15);
+        }
+        h2 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 24px;
+        }
+        .report-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            background: #fafafa;
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .report-header strong {
+            font-size: 1.1rem;
+        }
+        .prediction {
+            margin-top: 12px;
+            font-weight: bold;
+            color: #333;
+        }
+        details {
+            margin-top: 12px;
+        }
+        details summary {
+            cursor: pointer;
+            font-weight: 500;
+            color: #336699;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        .label {
+            display: inline-block;
+            width: 200px;
+            font-weight: 500;
+            color: #333;
+        }
+        .status {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        .status-normal {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-low {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .actions a {
+            display: inline-block;
+            text-decoration: none;
+            background: #5b8def;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 6px;
+            margin: 0 10px;
+        }
+        .actions a:hover {
+            background: #3f70cf;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>{{ patient_id }} - My Reports</h2>
+
+    {% if submissions %}
+        {% for s in submissions %}
+        <div class="report-box">
+            <div class="report-header">
+                <strong>Report Date:</strong> {{ s.date }}
+            </div>
+            <div class="prediction">{{ s.prediction }}</div>
+
+            <details>
+                <summary>View Details</summary>
+                <ul>
+                {% for name, value in zip(feature_names, s.features) %}
+                    {% set bounds = healthy_ranges[name] %}
+                    {% if value < bounds[0] %}
+                        {% set status = "Below Normal" %}
+                        {% set status_class = "status-low" %}
+                    {% elif value > bounds[1] %}
+                        {% set status = "Above Normal" %}
+                        {% set status_class = "status-high" %}
+                    {% else %}
+                        {% set status = "Normal" %}
+                        {% set status_class = "status-normal" %}
+                    {% endif %}
+                    <li>
+                        <span class="label">{{ name }}:</span> {{ value }}
+                        <span title="{{ bounds[2] }}" style="cursor: help; margin-left:5px;">&#9432;</span>
+                        <span class="status {{ status_class }}">{{ status }}</span>
+                    </li>
+                {% endfor %}
+                </ul>
+            </details>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No previous reports found.</p>
+    {% endif %}
+
+    <div class="actions">
+        <a href="/patient_form">Submit New Report</a>
+        <a href="/logout" style="background: #ef5350;">Logout</a>
+    </div>
+</div>
+</body>
+</html>

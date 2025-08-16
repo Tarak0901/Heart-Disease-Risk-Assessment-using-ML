@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login & Register - Heart Disease Prediction</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0eafc 0%, #f8fafc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 420px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 6px 24px rgba(60, 60, 120, 0.13);
+            padding: 30px;
+        }
+        h2 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 20px;
+        }
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        .tab-buttons button {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            background: #f6f9fb;
+            color: #3a4a5d;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .tab-buttons button.active {
+            background: linear-gradient(90deg, #5b8def 0%, #36cfc9 100%);
+            color: #fff;
+        }
+        .register-button {
+            width: 100%;
+            margin-top: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(90deg, #5b8def  0%, #36cfc9 100%);
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        .register-button {
+            max-width: 300px;
+            width: 100%;
+            text-align: center;
+        }
+        form { display: none; }
+        form.active { display: block; }
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #3a4a5d;
+            font-weight: 500;
+        }
+        form input,
+        form select {
+            width: 100%;
+            padding: 8px 10px;
+            margin-bottom: 16px;
+            border: 1px solid #bfc9d1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f6f9fb;
+            transition: border 0.2s;
+        }
+        form input:focus,
+        form select:focus {
+            border: 1.5px solid #5b8def;
+            outline: none;
+            background: #f0f6ff;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 11px 0;
+            background: linear-gradient(90deg, #5b8def 0%, #36cfc9 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        input[type="submit"]:hover {
+            background: linear-gradient(90deg, #36cfc9 0%, #5b8def 100%);
+        }
+        .register-section {
+            margin-top: 50px;
+            border-top: 1px solid #ccc;
+            padding-top: 25px;
+        }
+    </style>
+    <script>
+        function showForm(role) {
+            const forms = document.querySelectorAll(".login-form");
+            forms.forEach(f => f.classList.remove("active"));
+            document.getElementById(`login-${role}-form`).classList.add("active");
+
+            const buttons = document.querySelectorAll(".tab-buttons button");
+            buttons.forEach(b => b.classList.remove("active"));
+            document.getElementById(`login-${role}-tab`).classList.add("active");
+        }
+
+        function scrollToRegister() {
+            window.location.href = "/register";
+        }
+
+        window.onload = function () {
+            showForm('doctor');
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Heart Disease System</h2>
+
+        <!-- Login Tabs -->
+        <div class="tab-buttons">
+            <button id="login-doctor-tab" onclick="showForm('doctor')">Doctor Login</button>
+            <button id="login-patient-tab" onclick="showForm('patient')">Patient Login</button>
+        </div>
+
+        <!-- Login Forms -->
+        <form id="login-doctor-form" class="login-form active" method="POST" action="/login_doctor">
+            <label for="doctor_id">Doctor Email</label>
+            <input type="text" name="doctor_id" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+
+            <input type="submit" value="Login as Doctor">
+        </form>
+
+        <form id="login-patient-form" class="login-form" method="POST" action="/login_patient">
+            <label for="patient_id">Patient Email</label>
+            <input type="text" name="patient_id" required>
+
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
+
+            <input type="submit" value="Login as Patient">
+        </form>
+
+        <!-- Register Now Button -->
+        <div class="button-container">
+            <a href="{{ url_for('register') }}" class="register-button">Register Now</a>
+        </div>
+    </div>
+
+    <!-- Popup for wrong credentials -->
+    {% if error %}
+    <script>
+        alert("{{ error }}");
+    </script>
+    {% endif %}
+</body>
+</html>

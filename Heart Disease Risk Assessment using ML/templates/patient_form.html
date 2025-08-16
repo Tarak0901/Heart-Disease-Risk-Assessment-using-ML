@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Health Data</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #f8fafc 0%, #e0eafc 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 440px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(60, 60, 120, 0.15);
+            padding: 36px 40px 32px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2d3a4b;
+            margin-bottom: 28px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            color: #3a4a5d;
+            font-weight: 500;
+        }
+
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #bfc9d1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #f6f9fb;
+            transition: border 0.2s;
+        }
+
+        form input[type="number"]:focus {
+            border: 1.5px solid #5b8def;
+            outline: none;
+            background: #f0f6ff;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #5b8def 0%, #36cfc9 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background: linear-gradient(90deg, #36cfc9 0%, #5b8def 100%);
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Enter Health Details</h2>
+    <form action="/submit_data" method="post">
+        <label for="age">Age:</label>
+        <input type="number" name="feature1" id="age" placeholder="e.g. 45" min="1" required>
+
+        <label for="sex">Sex (1 = Male, 0 = Female):</label>
+        <input type="number" name="feature2" id="sex" min="0" max="1" required>
+
+        <label for="cp">Chest Pain Type (0–3):</label>
+        <input type="number" name="feature3" id="cp" min="0" max="3" required>
+
+        <label for="bp">Resting Blood Pressure (mm Hg):</label>
+        <input type="number" name="feature4" id="bp" placeholder="e.g. 120" required>
+
+        <label for="chol">Cholesterol (mg/dl):</label>
+        <input type="number" name="feature5" id="chol" placeholder="e.g. 240" required>
+
+        <label for="fbs">Fasting Blood Sugar > 120 mg/dl (1=Yes, 0=No):</label>
+        <input type="number" name="feature6" id="fbs" min="0" max="1" required>
+
+        <label for="restecg">Resting ECG (0–2):</label>
+        <input type="number" name="feature7" id="restecg" min="0" max="2" required>
+
+        <label for="thalach">Max Heart Rate Achieved:</label>
+        <input type="number" name="feature8" id="thalach" required>
+
+        <label for="exang">Exercise Induced Angina (1=Yes, 0=No):</label>
+        <input type="number" name="feature9" id="exang" min="0" max="1" required>
+
+        <label for="oldpeak">Oldpeak (ST Depression):</label>
+        <input type="number" name="feature10" id="oldpeak" step="0.1" required>
+
+        <label for="slope">Slope of ST Segment (0–2):</label>
+        <input type="number" name="feature11" id="slope" min="0" max="2" required>
+
+        <label for="ca">Number of Major Vessels (0–3):</label>
+        <input type="number" name="feature12" id="ca" min="0" max="3" required>
+
+        <label for="thal">Thalassemia (1=Normal, 2=Fixed Defect, 3=Reversible):</label>
+        <input type="number" name="feature13" id="thal" min="1" max="3" required>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
+</body>
+</html>
